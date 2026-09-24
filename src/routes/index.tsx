@@ -419,12 +419,15 @@ function PredictTab({
         vitals: selected.vitals,
       });
       setResults(out);
-      onSave(selected.id, {
-        disease: out[0].disease,
-        risk: out[0].risk,
-        confidence: out[0].confidence,
-        createdAt: new Date().toISOString(),
-      });
+      const top = out[0];
+      if (top) {
+        onSave(selected.id, {
+          disease: top.disease,
+          risk: top.risk,
+          confidence: top.confidence,
+          createdAt: new Date().toISOString(),
+        });
+      }
       setRunning(false);
       toast.success("AI analysis complete — result saved to patient record");
     }, 700);
