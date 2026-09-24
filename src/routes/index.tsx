@@ -70,7 +70,7 @@ const RISK_COLOR: Record<string, string> = {
 };
 
 function App() {
-  const { patients, addPatient, savePrediction } = usePatients();
+  const { patients, addPatient, savePrediction, removePatient } = usePatients();
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const selected = patients.find((p) => p.id === selectedId) ?? patients[0] ?? null;
@@ -112,6 +112,7 @@ function App() {
               patients={patients}
               onAdd={addPatient}
               onSelect={(id) => setSelectedId(id)}
+              onRemove={removePatient}
             />
           </TabsContent>
 
@@ -250,10 +251,12 @@ function PatientsTab({
   patients,
   onAdd,
   onSelect,
+  onRemove,
 }: {
   patients: Patient[];
   onAdd: ReturnType<typeof usePatients>["addPatient"];
   onSelect: (id: string) => void;
+  onRemove: (id: string) => void;
 }) {
   const [form, setForm] = useState({
     name: "",
@@ -373,6 +376,17 @@ function PatientsTab({
                     {p.predictions[0].disease} · {p.predictions[0].risk}
                   </Badge>
                 )}
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="h-7 px-2 text-xs"
+                  onClick={() => {
+                    onRemove(p.id);
+                    toast.success(`${p.name} removed`);
+                  }}
+                >
+                  Remove
+                </Button>
               </div>
               <p className="mt-2 text-xs text-muted-foreground">
                 {p.history || "No recorded history"} · Glucose {p.vitals.glucose} · BP{" "}
