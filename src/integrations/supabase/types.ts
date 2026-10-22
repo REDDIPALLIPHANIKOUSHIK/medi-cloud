@@ -14,7 +14,104 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      patients: {
+        Row: {
+          age: number
+          contact: string
+          created_at: string
+          gender: string
+          history: string
+          id: string
+          name: string
+          symptoms: Json
+          user_id: string
+          vitals: Json
+        }
+        Insert: {
+          age: number
+          contact?: string
+          created_at?: string
+          gender?: string
+          history?: string
+          id?: string
+          name: string
+          symptoms?: Json
+          user_id: string
+          vitals?: Json
+        }
+        Update: {
+          age?: number
+          contact?: string
+          created_at?: string
+          gender?: string
+          history?: string
+          id?: string
+          name?: string
+          symptoms?: Json
+          user_id?: string
+          vitals?: Json
+        }
+        Relationships: []
+      }
+      predictions: {
+        Row: {
+          confidence: number
+          created_at: string
+          disease: string
+          id: string
+          patient_id: string
+          risk: string
+          user_id: string
+        }
+        Insert: {
+          confidence: number
+          created_at?: string
+          disease: string
+          id?: string
+          patient_id: string
+          risk: string
+          user_id: string
+        }
+        Update: {
+          confidence?: number
+          created_at?: string
+          disease?: string
+          id?: string
+          patient_id?: string
+          risk?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "predictions_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          clinic_name: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+        }
+        Insert: {
+          clinic_name?: string | null
+          created_at?: string
+          full_name?: string | null
+          id: string
+        }
+        Update: {
+          clinic_name?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
